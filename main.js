@@ -51,22 +51,15 @@ function init() {
     self.recorder = new Recorder(linkid, options['data-server-url'], condition);
     prob = options['probabilities'][condition];
 
-    $('#pre-task-title')[0].innerText = strings['pre-task-title'];
-    // for (let p of strings['pre-task-messages'])
-    //     $(`<p>${p}</p>`).appendTo('#pre-task-text');
-    $('#pre-task-button-text')[0].innerText = strings['pre-task-button-text'];
-    $('#connecting-text')[0].innerText = strings['connecting-text'];
-    $('#probe-title')[0].innerText = strings['probe-title'];
-    // $('#probe-text')[0].innerText = strings['probe-text'];
-    // $('#probe-button-0-text')[0].innerText = strings['probe-button-0-text'];
-    $('#end-title')[0].innerText = strings['end-title'];
-    $('#end-text')[0].innerText = strings['end-text'];
-    $('#survey-button-text')[0].innerText = strings['survey-button-text'];
+    // Salta completamente la pre-task page
+    $('#pre-task-page').hide();
 
-   $('#pre-task-page').hide();
-connecting();
+    // Se vuoi partire subito con il gioco:
+    start();
+
+    // Se vuoi mantenere la connecting screen invece di partire subito:
+    // connecting();
 }
-
 
 /**
  * Animate the 'connecting' screen. End after a set time and call start().
