@@ -18,13 +18,13 @@ var ctx;
 var tosses;
 var prob;
 
-const parameters = new URLSearchParams(window.location.search);
-if (!(['condition', 'linkid'].every(x => parameters.has(x))))
-    Fatal('Condition and ID not specified.');
+const urlParams = new URLSearchParams(window.location.search);
+const condition = urlParams.get('condition') || 'neutra';
 
-const linkid = parameters.get('linkid');
-const condition = parameters.get('condition');
+const linkid = urlParams.get('linkid') || Math.floor(Math.random() * 10000000);
 
+console.log("Condizione:", condition);
+console.log("LinkID:", linkid);
 
 /****************************************
  * Fetch configuration JSON, then call init().
