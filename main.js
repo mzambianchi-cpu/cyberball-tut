@@ -191,28 +191,17 @@ function start() {
         setTimeout(end, toMilliseconds(options['time-limit']));
     };
 
-    // Set next MW probe.
-    const setprobe = function () {
-        if (self.probe < options['probe-intervals'].length) {
-            setTimeout(() => {
-                $('#probe-dialogue').show();
-                self.halted = true;
-                self.mode = 'probe';
-                recorder.record('openprobe', { });
-                self.probe++;
-            }, toMilliseconds(options['probe-intervals'][self.probe]));
+    // Thought probes disabilitate
+const setprobe = function () {
+    // Controlla solo quando il gioco è finito
+    setTimeout(function checkdone() {
+        if (self.tosses >= options['tosses']) {
+            end();
+        } else {
+            setTimeout(checkdone, 200);
         }
-
-        // If all probes done, repeatedly check whether all throws are done.
-        else setTimeout(function checkdone() {
-            console.log('checkdone');
-            if (self.tosses >= options['tosses']) {
-                end();
-            }
-            else setTimeout(checkdone, 200);
-        }, 200);
-    };
-
+    }, 200);
+};
     // Register event listeners.
     canvas.addEventListener('mousedown', function (ev) {
         globalBus.emit('click', ev);
