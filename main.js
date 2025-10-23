@@ -272,7 +272,7 @@ const setprobe = function () {
 
     recorder.begin();
 
-    globalBus.emit('turn', self.confederates[0]);
+    globalBus.emit('turn', self.participant);
     tick();
 }
 
