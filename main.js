@@ -205,8 +205,13 @@ const setprobe = function () {
     });
 
     globalBus.register('turn', (person) => {
-        self.currentPlayer = person;
-    });
+    self.currentPlayer = person;
+
+    // Se è il turno di un confederato, fallo lanciare dopo un ritardo
+    if (person instanceof Confederate) {
+        person.throw();
+    }
+});
 
     // Record response to MW probe.
     function keypress (e) {
