@@ -63,36 +63,16 @@ function init() {
     $('#end-text')[0].innerText = strings['end-text'];
     $('#survey-button-text')[0].innerText = strings['survey-button-text'];
 
-    $('#pre-task-button')[0].addEventListener('mousedown', function () {
-        $('#pre-task-page').hide();
-        connecting();
-    });
-
-    if (DEV_MODE) {
-        $('#pre-task-page').hide();
-        connecting();
-    }
+   $('#pre-task-page').hide();
+connecting();
 }
 
 
 /**
  * Animate the 'connecting' screen. End after a set time and call start().
  */
-function connecting() {
-    $('#loading-page').show();
-
-    const maxT = toMilliseconds(options['max-connecting-time']);
-    const minT = toMilliseconds(options['min-connecting-time']);
-    const totaltime = DEV_MODE ? 250 : Math.random() * (maxT - minT) + minT;
-
-    setTimeout(() => { $('#connecting-text')[0].innerText = 'Waiting for 2 more participants...'; }, 750);
-    setTimeout(() => { $('#connecting-text')[0].innerText = 'Waiting for 1 more participants...'; }, 0.72 * totaltime);
-    setTimeout(() => { $('#connecting-text')[0].innerText = 'Starting game.'; }, totaltime - 1000);
-
-    setTimeout(function () {
-        $('#loading-page').hide();
-        start();
-    }, totaltime);
+$('#pre-task-page').hide();
+connecting();
 
     // setTimeout(function () {
     //     $('#loading-page').hide();
