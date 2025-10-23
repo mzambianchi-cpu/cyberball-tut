@@ -130,23 +130,18 @@ function start() {
 
 
     // TODO Name confederates randomly or by i +1
-    self.confederates = new Array(options['confederates']);
-    for (let i = 0; i < confederates.length; ++i) {
-        confederates[i] =
-            new Confederate(`Player ${i == 0 ? 1 : 3}`,
-                function () {
-                    setTimeout(
-
-                        $.proxy(function () {
-                            globalBus.emit('throwto', this, counter.throw(this));
-                        }, this),
-
-                        // Wait a random number of seconds weighted by timedist.
-                        (pickFromDist(range(0, timedist.length), timedist)
-                            + noise() + 0.6) * 1000
-                    );
-                });
-    }
+self.confederates = new Array(options['confederates']);
+for (let i = 0; i < confederates.length; ++i) {
+    confederates[i] = new Confederate(`Player ${i == 0 ? 1 : 3}`);
+    
+    // aggiungi un metodo pubblico takeTurn
+    confederates[i].takeTurn = function() {
+        setTimeout(() => {
+            const target = counter.throw(this);
+            globalBus.emit('throwto', this, target);
+        }, (pickFromDist(range(0, timedist.length), timedist) + noise() + 0.6) * 1000);
+    };
+}
     allPlayers.push(...confederates);
 
     self.ball = new Ball();
@@ -206,10 +201,8 @@ const setprobe = function () {
 
     globalBus.register('turn', (person) => {
     self.currentPlayer = person;
-
-    // Se è il turno di un confederato, fallo lanciare dopo un ritardo
     if (person instanceof Confederate) {
-        person.throw();
+        person.takeTurn();
     }
 });
 
