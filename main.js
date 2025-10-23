@@ -184,20 +184,22 @@ const setprobe = function () {
     });
 
     globalBus.register('throwto', function (from, to) {
-        console.log('thrower:', to.id);
-        console.log('throwto:', to.id);
-
-        recorder.record('throw', {
-            from: from instanceof Participant ? 'participant' : from.name,
-            to: to instanceof Participant ? 'participant' : to.name,
-        });
-
-        // If last throw, end the game.
-        tosses++;
-        //if (tosses >= options.tosses) end();
-        //else
-        globalBus.emit('turn', to);
+    recorder.record('throw', {
+        from: from instanceof Participant ? 'participant' : from.name,
+        to: to instanceof Participant ? 'participant' : to.name,
     });
+
+    // 🔹 Aggancia la palla al destinatario
+    self.ball.setCurrentPlayer(to);
+
+    tosses++;
+    globalBus.emit('turn', to);
+
+    // 🔹 Se il destinatario è un confederato, fallo lanciare dopo un breve ritardo
+    if (to instanceof Confederate) {
+        to.takeTurn();
+    }
+});
 
     globalBus.register('turn', (person) => {
     self.currentPlayer = person;
