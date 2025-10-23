@@ -51,28 +51,16 @@ function init() {
     self.recorder = new Recorder(linkid, options['data-server-url'], condition);
     prob = options['probabilities'][condition];
 
-    // Salta completamente la pre-task page
+    // 🔹 Salta tutte le pagine iniziali e parte subito il gioco
     $('#pre-task-page').hide();
+    $('#pre-task2-page').hide();
+    $('#pre-task3-page').hide();
+    $('#pre-task4-page').hide();
+    $('#connecting-page').hide();
 
-    // Se vuoi partire subito con il gioco:
+    // 🔹 Avvia direttamente il gioco
     start();
-
-    // Se vuoi mantenere la connecting screen invece di partire subito:
-    // connecting();
 }
-
-/**
- * Animate the 'connecting' screen. End after a set time and call start().
- */
-$('#pre-task-page').hide();
-connecting();
-
-    // setTimeout(function () {
-    //     $('#loading-page').hide();
-    //     start();
-    //    }, DEV_MODE ? 250 : Math.random() * (maxT - minT) + minT);
-}
-
 
 /**
 * Initialize Cyberball and kick off event loop.
